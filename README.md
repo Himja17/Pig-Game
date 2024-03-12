@@ -1,6 +1,6 @@
 # PIG-GAME [ROLL THE DICE]
 
-![image](/assets/game-img.jpg)
+![image](https://github.com/Himja17/Pig-Game/assets/118122682/dad70e15-48fe-4a58-936e-954cf082adf2)
 
 I have built a game using Javascript where 2 players can play together.<br/>
 When player 1 rolls the dice, it creates a random number in dice between 1 to 6<br/>
