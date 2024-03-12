@@ -47,11 +47,12 @@ btnRoll.addEventListener("click", function () {
     const randomNum = Math.trunc(Math.random() * 6) + 1;
     console.log(randomNum);
 
+    //   Show the dice
     diceImg.classList.remove("hidden");
     diceImg.src = `/assets/dice-${randomNum}.png`;
 
     if (randomNum !== 1) {
-      currScore = currScore + randomNum;
+      currScore += randomNum;
       document.getElementById(`current--${activePlayer}`).textContent =
         currScore;
     } else {
@@ -64,7 +65,7 @@ btnRoll.addEventListener("click", function () {
 holdNum.addEventListener("click", function () {
   // Add the current score to the score0/score1 depending on active player
   if (playing) {
-    bigScore[activePlayer] = bigScore[activePlayer] + currScore;
+    bigScore[activePlayer] += currScore;
     document.getElementById(`score--${activePlayer}`).textContent =
       bigScore[activePlayer];
 
