@@ -7,12 +7,28 @@ const player1 = document.querySelector(".player--1");
 const holdNum = document.querySelector(".btn--hold");
 const currScore0 = document.getElementById("current--0");
 const currScore1 = document.getElementById("current--1");
+const newGame = document.querySelector(".btn--new");
 
-score0.textContent = 0;
-score1.textContent = 0;
-let currScore = 0;
-let activePlayer = 0;
-let bigScore = [0, 0];
+let currScore, activePlayer, bigScore, playing;
+
+const initialValue = function () {
+  currScore = 0;
+  activePlayer = 0;
+  bigScore = [0, 0];
+  playing = true;
+
+  score0.textContent = 0;
+  score1.textContent = 0;
+  currScore0.textContent = 0;
+  currScore1.textContent = 0;
+
+  diceImg.classList.add("hidden");
+  player0.classList.remove("player--winner");
+  player1.classList.remove("player--winner");
+  player0.classList.add("player--active");
+  player1.classList.remove("player--active");
+};
+initialValue();
 
 // Hiding dice image at first
 diceImg.classList.add("hidden");
@@ -27,26 +43,45 @@ const switchPlayer = function () {
 
 // ROLL DICE
 btnRoll.addEventListener("click", function () {
-  const randomNum = Math.trunc(Math.random() * 6) + 1;
-  console.log(randomNum);
+  if (playing) {
+    const randomNum = Math.trunc(Math.random() * 6) + 1;
+    console.log(randomNum);
 
-  diceImg.classList.remove("hidden");
-  diceImg.src = `/assets/dice-${randomNum}.png`;
+    diceImg.classList.remove("hidden");
+    diceImg.src = `/assets/dice-${randomNum}.png`;
 
-  if (randomNum !== 1) {
-    currScore = currScore + randomNum;
-    document.getElementById(`current--${activePlayer}`).textContent = currScore;
-  } else {
-    switchPlayer();
+    if (randomNum !== 1) {
+      currScore = currScore + randomNum;
+      document.getElementById(`current--${activePlayer}`).textContent =
+        currScore;
+    } else {
+      switchPlayer();
+    }
   }
 });
 
+// HOLD SCORE
 holdNum.addEventListener("click", function () {
   // Add the current score to the score0/score1 depending on active player
-  bigScore[activePlayer] = bigScore[activePlayer] + currScore;
-  document.getElementById(`score--${activePlayer}`).textContent =
-    bigScore[activePlayer];
-    switchPlayer();
-    
+  if (playing) {
+    bigScore[activePlayer] = bigScore[activePlayer] + currScore;
+    document.getElementById(`score--${activePlayer}`).textContent =
+      bigScore[activePlayer];
 
+    if (bigScore[activePlayer] >= 100) {
+      diceImg.classList.add("hidden");
+      playing = false;
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.add("player--winner");
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.remove("player--active");
+    } else {
+      switchPlayer();
+    }
+  }
 });
+
+// NEW GAME RESET
+newGame.addEventListener("click", initialValue);
